@@ -1,0 +1,10 @@
+{
+  "name": "iGrocerylist",
+  "app_id": "",
+   "proxies": [
+      {
+        "path": "/groceryitem",
+        "proxyUrl": "http://grocerylist.therealcarlos.com/groceryitem"
+      }
+    ]
+}

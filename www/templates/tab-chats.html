@@ -1,0 +1,13 @@
+
+<ion-view view-title="Grocery List">
+    <ion-nav-buttons side="primary">
+        <button class="button button-balanced" ng-click="doSomething()">
+            Finish Shopping
+        </button>
+    </ion-nav-buttons>
+  <ion-content>
+    <ion-list ng-repeat="chat in chats">
+      <ion-checkbox ng-model="check">{{chat.name}}</ion-checkbox>
+    </ion-list>
+  </ion-content>
+</ion-view>
