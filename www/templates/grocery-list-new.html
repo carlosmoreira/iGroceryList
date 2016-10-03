@@ -1,0 +1,17 @@
+<ion-view view-title="New Grocery Item" ng-init="initNew()">
+    <ion-nav-buttons side="primary">
+        <!--<button class="button button-balanced" ng-click="doSomething()" ng-show="hasInCart()">-->
+        <!--Finish Shopping-->
+        <!--</button>-->
+    </ion-nav-buttons>
+    <ion-content>
+        <div class="list">
+            <form ng-submit="addNew(groceryName)">
+                <label class="item item-input">
+                    <input ng-model="groceryName" type="text" placeholder="Grocery Item">
+                </label>
+                <button class="button button-block button-positive">Save Grocery Item</button>
+            </form>
+        </div>
+    </ion-content>
+</ion-view>

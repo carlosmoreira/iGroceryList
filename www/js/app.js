@@ -35,39 +35,18 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
             // Each tab has its own nav history stack:
 
             .state('list', {
+                cache : false,
                 url: '/',
-                templateUrl: 'templates/tab-chats.html',
-                controller: 'ListCtrl'
+                //templateUrl: 'templates/grocery-list.html',
+                templateUrl: 'templates/grocery-list.html',
+                controller: 'GroceriesCtrl'
             })
 
-            .state('tab.dash', {
-                url: '/dash',
-                views: {
-                    'tab-dash': {
-                        templateUrl: 'templates/tab-dash.html',
-                        controller: 'DashCtrl'
-                    }
-                }
-            })
-
-            .state('tab.chat-detail', {
-                url: '/chats/:chatId',
-                views: {
-                    'tab-chats': {
-                        templateUrl: 'templates/chat-detail.html',
-                        controller: 'ChatDetailCtrl'
-                    }
-                }
-            })
-
-            .state('tab.account', {
-                url: '/account',
-                views: {
-                    'tab-account': {
-                        templateUrl: 'templates/tab-account.html',
-                        controller: 'AccountCtrl'
-                    }
-                }
+            .state('new', {
+                url: '/new',
+                //templateUrl: 'templates/grocery-list.html',
+                templateUrl: 'templates/grocery-list-new.html',
+                controller: 'GroceriesCtrl'
             });
 
         // if none of the above states are matched, use this as the fallback

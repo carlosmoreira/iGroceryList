@@ -1,37 +1,73 @@
 angular.module('starter.controllers', [])
 
-    .controller('DashCtrl', function ($scope) {
-    })
 
-    .controller('ChatsCtrl', function ($scope, Chats) {
-        // With the new view caching in Ionic, Controllers are only called
-        // when they are recreated or on app start, instead of every page change.
-        // To listen for when this page is active (for example, to refresh data),
-        // listen for the $ionicView.enter event:
-        //
-        //$scope.$on('$ionicView.enter', function(e) {
-        //});
+    .controller('GroceriesCtrl', function ($scope, Chats, $http, $ionicPopup, $location, API_URL) {
 
-        $scope.chats = Chats.all();
-        $scope.remove = function (chat) {
-            Chats.remove(chat);
+        $scope.groceries = null;
+
+        $scope.init = function () {
+            $http.get(API_URL + '/groceryitem').then(function (groceries) {
+                try {
+                    $scope.groceries = groceries.data;
+                } catch (error) {
+                    alert(error);
+                }
+            });
         };
-    })
 
-    .controller('ChatDetailCtrl', function ($scope, $stateParams, Chats) {
-        $scope.chat = Chats.get($stateParams.chatId);
-    })
-
-    .controller('AccountCtrl', function ($scope) {
-        $scope.settings = {
-            enableFriends: true
+        $scope.placeInCart = function (grocery) {
+            $http.put(API_URL + '/groceryitem/' + grocery.id, grocery)
+                .then(function (response) {
+                    $scope.init();
+                })
         };
-    })
 
-    .controller('ListCtrl', function ($scope, Chats, $http, API_URL) {
-        $scope.chats = Chats.all();
-        console.log('tessst');
-        $http.get('/groceryitem').success(function (data) {
-            conosle.log(data);
-        })
+        $scope.hasInCart = function () {
+            var total = 0;
+            angular.forEach($scope.groceries, function (grocery) {
+                //console.log(grocery);
+                if (grocery.inCart)
+                    total++;
+            });
+            return total > 0;
+        };
+
+        $scope.addNew = function (groceryName) {
+
+            if (groceryName == undefined || groceryName == '') {
+                var confirmPopup = $ionicPopup.confirm({
+                    title: 'Error',
+                    template: 'Grocery Item cannot be empty!'
+                });
+                return;
+            }
+
+            $http.post(API_URL + '/groceryitem', {'name': groceryName})
+                .then(function (response) {
+                    console.log(response);
+                    if (response.data.Success){
+
+                        $location.path('/');
+                        $scope.init();
+                    }
+
+                });
+        };
+
+        $scope.finishShopping = function () {
+
+            var inCart = $scope.groceries.filter(function (grocery) {
+                grocery.bought = 1;
+                return grocery.inCart;
+            });
+
+            $http.post( API_URL + '/groceryitem/buyCart', { 'cartItems' : inCart })
+                .then(function (response) {
+                    console.log(response);
+                    if(response.data && response.data.Success){
+                        $scope.init();
+                    }
+                })
+        }
+
     });
